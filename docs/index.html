@@ -141,8 +141,29 @@
   <script>
     // Configure your channel feeds here:
     // type: "hls" (.m3u8), "mp4" (.mp4/.webm), or "embed" (iframe URL)
-    const CHANNELS = [
-      {
+const CHANNELS = [
+  {
+    code: "01",
+    name: "Main Broadcast",
+    meta: "Flagship Live Channel",
+    type: "mp4", // "mp4", "hls", or "embed"
+    url: "https://YOUR_MP4_OR_WEBM_URL"
+  },
+  {
+    code: "02",
+    name: "Live Events",
+    meta: "Specials & Premieres",
+    type: "hls",
+    url: "https://YOUR_STREAM_URL.m3u8"
+  },
+  {
+    code: "03",
+    name: "On-Demand Vault",
+    meta: "Replays & Clips",
+    type: "embed",
+    url: "https://YOUR_EMBED_PLAYER_URL"
+  }
+];{
         code: "01",
         name: "Main Broadcast",
         meta: "Flagship Live Channel",
