@@ -1,7 +1,7 @@
 mkdir -p .github/workflows
 
-cat << 'EOF' > .github/workflows/main.yml
-name: Android CI
+python3 - << 'PY'
+content = """name: Android CI
 
 on:
   push:
@@ -35,6 +35,13 @@ jobs:
           name: red-spade-network-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: ignore
-EOF
+"""
 
-git add .github/workflows/main.yml && git commit -m "Use system gradle command to bypass broken wrapper jar" && git push origin main
+with open(".github/workflows/main.yml", "wb") as f:
+    f.write(content.lstrip().replace("\r\n", "\n").replace("\r", "").encode("utf-8"))
+PY
+
+cat -A .github/workflows/main.yml | sed -n '1,8p'
+git add .github/workflows/main.yml
+git commit -m "Normalize LF line endings in main.yml"
+git push origin main
