@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red Spade Network</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #09090b;
+      color: #f4f4f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      border-bottom: 1px solid #27272a;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .spade { color: #ef4444; font-size: 32px; }
+    .badge {
+      background: #ef4444;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.08em;
+    }
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 32px;
+      padding: 36px 48px;
+    }
+    .player-stage {
+      background: #121216;
+      border: 2px solid #27272a;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 32px;
+      text-align: center;
+    }
+    .player-stage h2 { font-size: 32px; margin-bottom: 12px; }
+    .player-stage p { color: #a1a1aa; font-size: 18px; max-width: 520px; line-height: 1.5; }
+    .channel-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .channel-btn {
+      background: #18181b;
+      color: #f4f4f5;
+      border: 2px solid #27272a;
+      border-radius: 14px;
+      padding: 22px 24px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+    }
+    .channel-btn:focus, .channel-btn.active {
+      outline: none;
+      border-color: #ef4444;
+      background: #231517;
+      transform: scale(1.02);
+    }
+    .channel-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+    .channel-meta { font-size: 14px; color: #a1a1aa; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="spade">♠</span> RED SPADE NETWORK</div>
+    <div class="badge">PORTAL ONLINE</div>
+  </header>
+
+  <main>
+    <section class="player-stage" id="stage">
+      <h2 id="stage-title">Main Broadcast Feed</h2>
+      <p id="stage-desc">Portal connected and ready. Swap stream URLs in docs/index.html anytime to push live video without rebuilding the APK.</p>
+    </section>
+
+    <aside class="channel-list" id="channels">
+      <button class="channel-btn active" data-title="Main Broadcast Feed" data-desc="24/7 Flagship Red Spade Network Stream — Ready for live HLS/embed source.">
+        <div class="channel-title">01 · Main Broadcast</div>
+        <div class="channel-meta">Flagship Live Channel</div>
+      </button>
+      <button class="channel-btn" data-title="Live Events & Specials" data-desc="Featured live events, premieres, and scheduled broadcasts.">
+        <div class="channel-title">02 · Live Events</div>
+        <div class="channel-meta">Specials &amp; Premieres</div>
+      </button>
+      <button class="channel-btn" data-title="On-Demand Archive" data-desc="Replay vault and past network broadcasts.">
+        <div class="channel-title">03 · On-Demand Vault</div>
+        <div class="channel-meta">Replays &amp; Clips</div>
+      </button>
+    </aside>
+  </main>
+
+  <script>
+    const buttons = Array.from(document.querySelectorAll('.channel-btn'));
+    const stageTitle = document.getElementById('stage-title');
+    const stageDesc = document.getElementById('stage-desc');
+    let currentIndex = 0;
+
+    function selectChannel(index) {
+      currentIndex = (index + buttons.length) % buttons.length;
+      buttons.forEach((btn, i) => btn.classList.toggle('active', i === currentIndex));
+      const active = buttons[currentIndex];
+      active.focus();
+      stageTitle.textContent = active.dataset.title;
+      stageDesc.textContent = active.dataset.desc;
+    }
+
+    buttons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => selectChannel(idx));
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); selectChannel(currentIndex + 1); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); selectChannel(currentIndex - 1); }
+    });
+
+    selectChannel(0);
+  </script>
+</body>
+</html>
