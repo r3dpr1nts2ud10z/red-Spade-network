@@ -1,3 +1,6 @@
+mkdir -p .github/workflows
+
+cat << 'EOF' > .github/workflows/main.yml
 name: Android CI
 
 on:
@@ -23,13 +26,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Build debug APK
-        run: |
-          if [ -f "./gradlew" ]; then
-            chmod +x ./gradlew
-            ./gradlew assembleDebug
-          else
-            gradle assembleDebug
-          fi
+        run: gradle assembleDebug --no-daemon
 
       - name: Upload debug APK artifact
         if: always()
@@ -38,3 +35,6 @@ jobs:
           name: red-spade-network-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: ignore
+EOF
+
+git add .github/workflows/main.yml && git commit -m "Use system gradle command to bypass broken wrapper jar" && git push origin main
