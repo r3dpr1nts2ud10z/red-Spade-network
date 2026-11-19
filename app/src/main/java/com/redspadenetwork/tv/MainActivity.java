@@ -12,8 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
-    private static final String STREAM_URL = "https://your-actual-stream-url-here";
-
+private static final String STREAM_URL = "https://r3dpr1nts2ud10z.github.io/red-Spade-network/";
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
