@@ -1,3 +1,7 @@
+set -e
+
+mkdir -p .github/workflows app
+
 cat << 'EOF' > settings.gradle
 pluginManagement {
     repositories {
@@ -59,8 +63,45 @@ dependencies {
 }
 EOF
 
-echo "--- root build.gradle ---"
-nl -ba build.gradle
-git add settings.gradle build.gradle app/build.gradle
-git commit -m "Configure pluginManagement repositories and AGP version in root build.gradle"
+cat << 'EOF' > .github/workflows/main.yml
+name: Android CI
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build debug APK
+        run: gradle assembleDebug --no-daemon
+
+      - name: Upload debug APK artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: red-spade-network-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: ignore
+EOF
+
+head -n 5 .github/workflows/main.yml
+git add settings.gradle build.gradle app/build.gradle .github/workflows/main.yml
+git commit -m "Clean up main.yml and configure Gradle settings"
 git push origin main
