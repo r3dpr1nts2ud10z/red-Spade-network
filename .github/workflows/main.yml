@@ -1,35 +1,36 @@
-name: Android CI
+set -e
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+cat << 'EOF' > settings.gradle
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Red Spade Network"
+include ':app'
+EOF
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+cat << 'EOF' > build.gradle
+plugins {
+    id 'com.android.application' version '8.2.0' apply false
+    id 'com.android.library' version '8.2.0' apply false
+}
+EOF
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+echo "=== build.gradle ==="
+nl -ba build.gradle
+echo "=== settings.gradle ==="
+nl -ba settings.gradle
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      - name: Build debug APK
-        run: gradle assembleDebug --no-daemon
-
-      - name: Upload debug APK artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: red-spade-network-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
-          if-no-files-found: ignore
+git add settings.gradle build.gradle
+git commit -m "Add AGP 8.2.0 version to root build.gradle and configure repositories"
+git push origin main
