@@ -3,7 +3,7 @@ mkdir -p .github/workflows
 cat << 'EOF' > .github/workflows/main.yml
 name: Android CI
 
-on:
+"on":
   push:
     branches:
       - main
@@ -43,4 +43,5 @@ jobs:
           if-no-files-found: ignore
 EOF
 
-git add .github/workflows/main.yml && git commit -m "Fix YAML syntax in main.yml" && git push origin main
+head -n 10 .github/workflows/main.yml
+git add .github/workflows/main.yml && git commit -m "Fix line 4 YAML syntax in main.yml" && git push origin main
