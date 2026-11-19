@@ -1,4 +1,39 @@
-mkdir -p app/src/main/java/com/redspadenetwork/tv .github/workflows
+set -e
+
+REPO_URL="https://github.com/r3dpr1nts2ud10z/red-Spade-network.git"
+REPO_DIR="red-Spade-network"
+
+if [ -d ".git" ]; then
+  echo "Already inside a git repo..."
+elif [ -d "$REPO_DIR/.git" ]; then
+  cd "$REPO_DIR"
+else
+  git clone "$REPO_URL" "$REPO_DIR"
+  cd "$REPO_DIR"
+fi
+
+git checkout -B main
+
+mkdir -p app/src/main/java/com/redspadenetwork/tv app/src/main/res/values .github/workflows
+
+cat << 'EOF' > settings.gradle
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Red Spade Network"
+include ':app'
+EOF
 
 cat << 'EOF' > build.gradle
 plugins {
@@ -42,6 +77,12 @@ dependencies {
 }
 EOF
 
+cat << 'EOF' > app/src/main/res/values/strings.xml
+<resources>
+    <string name="app_name">Red Spade Network</string>
+</resources>
+EOF
+
 cat << 'EOF' > app/src/main/AndroidManifest.xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -52,7 +93,7 @@ cat << 'EOF' > app/src/main/AndroidManifest.xml
 
     <application
         android:allowBackup="true"
-        android:label="Red Spade Network"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
@@ -153,7 +194,13 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Build debug APK
-        run: gradle assembleDebug
+        run: |
+          if [ -f "./gradlew" ]; then
+            chmod +x ./gradlew
+            ./gradlew assembleDebug
+          else
+            gradle assembleDebug
+          fi
 
       - name: Upload debug APK artifact
         if: always()
@@ -164,4 +211,6 @@ jobs:
           if-no-files-found: ignore
 EOF
 
-git add build.gradle app .github/workflows/main.yml && git commit -m "Configure Android TV app module and CI workflow" && git push origin main
+git add settings.gradle build.gradle app .github/workflows/main.yml
+git commit -m "Scaffold Android TV app module and CI pipeline" || echo "Nothing new to commit"
+git push -u origin main
