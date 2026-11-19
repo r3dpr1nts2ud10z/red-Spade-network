@@ -1,6 +1,3 @@
-mkdir -p .github/workflows
-
-cat << 'EOF' > .github/workflows/main.yml
 name: Android CI
 
 on:
@@ -41,7 +38,3 @@ jobs:
           name: red-spade-network-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: ignore
-EOF
-
-nl -ba .github/workflows/main.yml | sed -n '1,10p'
-git add .github/workflows/main.yml && git commit -m "Use standard on trigger in main.yml" && git push origin main
