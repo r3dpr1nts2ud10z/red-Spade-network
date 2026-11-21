@@ -87,6 +87,7 @@
       text-align: center;
       padding: 32px;
       z-index: 2;
+      pointer-events: none;
     }
     .status-overlay h2 { font-size: 28px; margin-bottom: 10px; }
     .status-overlay p { color: #a1a1aa; font-size: 16px; max-width: 520px; line-height: 1.5; }
@@ -120,73 +121,61 @@
   <header>
     <div class="brand"><span class="spade">♠</span> RED SPADE NETWORK</div>
     <div class="header-right">
-      <span class="now-playing" id="now-playing">Ready</span>
+      <span class="now-playing" id="now-playing">01 · Main Broadcast</span>
       <div class="badge">LIVE PORTAL</div>
     </div>
   </header>
 
   <main>
     <section class="player-stage" id="stage">
-      <video id="video-player" playsinline controls autoplay></video>
+      <video id="video-player" playsinline controls autoplay muted></video>
       <iframe id="embed-player" class="hidden" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
       <div class="status-overlay" id="status-overlay">
-        <h2 id="status-title">Select a Channel</h2>
-        <p id="status-desc">Add your stream URLs to CHANNELS in docs/index.html to start playback.</p>
+        <h2 id="status-title">Loading Stream...</h2>
+        <p id="status-desc">Connecting to Red Spade Network feed.</p>
       </div>
     </section>
 
-    <aside class="channel-list" id="channels"></aside>
+    <aside class="channel-list" id="channels">
+      <button class="channel-btn active" data-index="0">
+        <div class="channel-title">01 · Main Broadcast</div>
+        <div class="channel-meta">Flagship Live Channel · HLS</div>
+      </button>
+      <button class="channel-btn" data-index="1">
+        <div class="channel-title">02 · Live Events</div>
+        <div class="channel-meta">Specials &amp; Premieres · MP4</div>
+      </button>
+      <button class="channel-btn" data-index="2">
+        <div class="channel-title">03 · On-Demand Vault</div>
+        <div class="channel-meta">Replays &amp; Clips · MP4</div>
+      </button>
+    </aside>
   </main>
 
   <script>
-    // Configure your channel feeds here:
-    // type: "hls" (.m3u8), "mp4" (.mp4/.webm), or "embed" (iframe URL)
-const CHANNELS = [
-  {
-    code: "01",
-    name: "Main Broadcast",
-    meta: "Flagship Live Channel",
-    type: "mp4", // "mp4", "hls", or "embed"
-    url: "https://YOUR_MP4_OR_WEBM_URL"
-  },
-  {
-    code: "02",
-    name: "Live Events",
-    meta: "Specials & Premieres",
-    type: "hls",
-    url: "https://YOUR_STREAM_URL.m3u8"
-  },
-  {
-    code: "03",
-    name: "On-Demand Vault",
-    meta: "Replays & Clips",
-    type: "embed",
-    url: "https://YOUR_EMBED_PLAYER_URL"
-  }
-];{
+    // Replace these URLs with your own feeds anytime (type: "hls", "mp4", or "embed")
+    const CHANNELS = [
+      {
         code: "01",
         name: "Main Broadcast",
-        meta: "Flagship Live Channel",
-        type: "mp4",
-        url: ""
+        type: "hls",
+        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
       },
       {
         code: "02",
         name: "Live Events",
-        meta: "Specials & Premieres",
-        type: "hls",
-        url: ""
+        type: "mp4",
+        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
       },
       {
         code: "03",
         name: "On-Demand Vault",
-        meta: "Replays & Clips",
         type: "mp4",
-        url: ""
+        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
       }
     ];
 
-    const listEl = document.getElementById("channels");
+    const buttons = Array.from(document.querySelectorAll(".channel-btn"));
     const videoEl = document.getElementById("video-player");
     const iframeEl = document.getElementById("embed-player");
     const overlayEl = document.getElementById("status-overlay");
@@ -216,12 +205,11 @@ const CHANNELS = [
 
     function playChannel(index) {
       currentIndex = (index + CHANNELS.length) % CHANNELS.length;
-      const buttons = Array.from(document.querySelectorAll(".channel-btn"));
       buttons.forEach((btn, i) => btn.classList.toggle("active", i === currentIndex));
       if (buttons[currentIndex]) buttons[currentIndex].focus();
 
       const ch = CHANNELS[currentIndex];
-      nowPlayingEl.textContent = `${ch.code} · ${ch.name}`;
+      nowPlayingEl.textContent = ch.code + " · " + ch.name;
 
       destroyHls();
       videoEl.pause();
@@ -232,10 +220,7 @@ const CHANNELS = [
       if (!ch.url || !ch.url.trim()) {
         videoEl.classList.add("hidden");
         iframeEl.classList.add("hidden");
-        showStatus(
-          `${ch.code} · ${ch.name}`,
-          `No stream URL configured yet for this channel. Set a valid ${ch.type.toUpperCase()} or embed URL in docs/index.html.`
-        );
+        showStatus(ch.code + " · " + ch.name, "No stream URL configured yet for this channel.");
         return;
       }
 
@@ -249,45 +234,40 @@ const CHANNELS = [
 
       iframeEl.classList.add("hidden");
       videoEl.classList.remove("hidden");
-      showStatus(`Loading ${ch.name}...`, "Connecting to broadcast stream.");
+      showStatus("Loading " + ch.name + "...", "Connecting to broadcast stream.");
 
       if (ch.type === "hls" && window.Hls && window.Hls.isSupported()) {
         hlsInstance = new window.Hls({ enableWorker: true });
         hlsInstance.loadSource(ch.url);
         hlsInstance.attachMedia(videoEl);
-        hlsInstance.on(window.Hls.Events.MANIFEST_PARSED, () => {
+        hlsInstance.on(window.Hls.Events.MANIFEST_PARSED, function () {
           hideStatus();
-          videoEl.play().catch(() => {});
+          videoEl.play().catch(function () {});
         });
-        hlsInstance.on(window.Hls.Events.ERROR, (_, data) => {
+        hlsInstance.on(window.Hls.Events.ERROR, function (_, data) {
           if (data && data.fatal) {
-            showStatus("Stream Unavailable", `Could not load HLS feed for ${ch.name}.`);
+            showStatus("Stream Unavailable", "Could not load HLS feed for " + ch.name + ".");
           }
         });
       } else {
         videoEl.src = ch.url;
-        videoEl.oncanplay = () => {
+        videoEl.oncanplay = function () {
           hideStatus();
-          videoEl.play().catch(() => {});
+          videoEl.play().catch(function () {});
         };
-        videoEl.onerror = () => {
-          showStatus("Stream Unavailable", `Could not load media feed for ${ch.name}.`);
+        videoEl.onerror = function () {
+          showStatus("Stream Unavailable", "Could not load media feed for " + ch.name + ".");
         };
       }
     }
 
-    CHANNELS.forEach((ch, idx) => {
-      const btn = document.createElement("button");
-      btn.className = "channel-btn";
-      btn.innerHTML = `
-        <div class="channel-title">${ch.code} · ${ch.name}</div>
-        <div class="channel-meta">${ch.meta} · ${ch.type.toUpperCase()}</div>
-      `;
-      btn.addEventListener("click", () => playChannel(idx));
-      listEl.appendChild(btn);
+    buttons.forEach(function (btn, idx) {
+      btn.addEventListener("click", function () {
+        playChannel(idx);
+      });
     });
 
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown") {
         e.preventDefault();
         playChannel(currentIndex + 1);
@@ -295,11 +275,8 @@ const CHANNELS = [
         e.preventDefault();
         playChannel(currentIndex - 1);
       } else if (e.key === "Enter") {
-        const activeBtn = document.querySelectorAll(".channel-btn")[currentIndex];
-        if (activeBtn && document.activeElement !== activeBtn) {
-          e.preventDefault();
-          playChannel(currentIndex);
-        }
+        e.preventDefault();
+        playChannel(currentIndex);
       }
     });
 
