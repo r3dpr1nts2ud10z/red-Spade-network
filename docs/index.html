@@ -165,13 +165,13 @@
         code: "02",
         name: "Live Events",
         type: "mp4",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        url: "https://test-streams.mux.dev/pts_shift/master.m3u8"
       },
       {
         code: "03",
         name: "On-Demand Vault",
         type: "mp4",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+        url: "https://test-streams.mux.dev/bbb/bbb.m3u8"
       }
     ];
 
@@ -280,58 +280,68 @@
       }
     });
 
-    playChannel(0);
-  </script>
+    
+  (async function hydrateChannelsFromFeed() {
+    const feedUrl = "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/channel_feed.json";
+    const channelList = document.getElementById("channels");
+    if (!channelList) return;
 
-<script>
-(async function syncRedSpadeFeed() {
-  const feedUrl = "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/channel_feed.json";
-  const channelList = document.getElementById("channels");
-  if (!channelList) return;
+    try {
+      const res = await fetch(`${feedUrl}?t=${Date.now()}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const episodes = Array.isArray(data.episodes) ? data.episodes : [];
+      if (!episodes.length) return;
 
-  try {
-    const res = await fetch(`${feedUrl}?t=${Date.now()}`);
-    if (!res.ok) return;
-    const data = await res.json();
-    const episodes = Array.isArray(data.episodes) ? data.episodes : [];
-    if (!episodes.length) return;
-
-    episodes.forEach((ep) => {
-      const streamUrl = (ep.streams && (ep.streams.hls || ep.streams.mp4)) || "";
-      if (!streamUrl) return;
-      if (channelList.querySelector(`[data-feed-url="${streamUrl}"]`)) return;
-
-      const idx = channelList.querySelectorAll(".channel-btn").length;
-      const btn = document.createElement("button");
-      btn.className = "channel-btn";
-      btn.setAttribute("data-index", String(idx));
-      btn.setAttribute("data-feed-url", streamUrl);
-
-      const title = ep.title || ep.job_id || `Episode ${idx + 1}`;
-      const meta = ep.channel_id || "S2UD10Z Render Engine";
-
-      const titleDiv = document.createElement("div");
-      titleDiv.className = "channel-title";
-      titleDiv.textContent = title;
-
-      const metaDiv = document.createElement("div");
-      metaDiv.className = "channel-meta";
-      metaDiv.textContent = meta;
-
-      btn.appendChild(titleDiv);
-      btn.appendChild(metaDiv);
-
-      if (typeof window.playChannel === "function") {
-        btn.addEventListener("click", () => window.playChannel(idx));
+      // Also point 02 and 03 to live rendered episodes when available
+      if (episodes[0] && CHANNELS[1]) {
+        const u0 = episodes[0].streams?.hls || episodes[0].streams?.mp4;
+        if (u0) {
+          CHANNELS[1].url = u0;
+          CHANNELS[1].type = u0.endsWith(".m3u8") ? "hls" : "mp4";
+        }
+      }
+      if (episodes[1] && CHANNELS[2]) {
+        const u1 = episodes[1].streams?.hls || episodes[1].streams?.mp4;
+        if (u1) {
+          CHANNELS[2].url = u1;
+          CHANNELS[2].type = u1.endsWith(".m3u8") ? "hls" : "mp4";
+        }
       }
 
-      channelList.appendChild(btn);
-    });
-  } catch (_) {
-    // Keep existing static lineup if feed fetch fails
-  }
-})();
-</script>
+      episodes.forEach((ep, i) => {
+        const streamUrl = ep.streams?.hls || ep.streams?.mp4;
+        if (!streamUrl) return;
+        const idx = CHANNELS.length;
+        const code = String(idx + 1).padStart(2, "0");
+        const title = ep.title || ep.job_id || `Rendered Episode ${i + 1}`;
+        const chType = streamUrl.endsWith(".m3u8") ? "hls" : "mp4";
+
+        CHANNELS.push({
+          code,
+          name: title,
+          type: chType,
+          url: streamUrl
+        });
+
+        const btn = document.createElement("button");
+        btn.className = "channel-btn";
+        btn.setAttribute("data-index", String(idx));
+        btn.innerHTML = `
+          <div class="channel-title">${code} · ${title}</div>
+          <div class="channel-meta">${ep.channel_id || "S2UD10Z"} · ${chType.toUpperCase()}</div>
+        `;
+        btn.addEventListener("click", () => playChannel(idx));
+        channelList.appendChild(btn);
+        buttons.push(btn);
+      });
+    } catch (_) {}
+  })();
+
+  playChannel(0);
+  </script>
+
+
 
 </body>
 </html>
