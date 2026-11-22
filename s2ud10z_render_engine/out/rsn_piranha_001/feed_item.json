@@ -1,0 +1,18 @@
+{
+  "job_id": "rsn_piranha_001",
+  "channel_id": "red-spade-main",
+  "title": "Tax Season Breakdown: Street Math vs. Reality",
+  "framing": "educational_parody",
+  "updated_at": "2026-11-22T05:48:51.506449+00:00",
+  "streams": {
+    "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/render_engine/out/rsn_piranha_001/master.m3u8",
+    "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/render_engine/out/rsn_piranha_001/episode_1080p.mp4"
+  },
+  "files": {
+    "playlist": "master.m3u8",
+    "master": "episode_1080p.mp4",
+    "segments": [
+      "seg_000.ts"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "job_id": "rsn_piranha_001",
+  "channel_id": "red-spade-main",
+  "title": "Tax Season Breakdown: Street Math vs. Reality",
+  "framing": "educational_parody",
+  "blender": {
+    "blend_file": "/opt/s2ud10z/scenes/nyc_stage_piranha.blend",
+    "scene_script": "stage_block.py",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080
+  },
+  "comfyui": {
+    "url": "http://127.0.0.1:8188",
+    "workflow_json": "/opt/s2ud10z/workflows/muppet_ltx_sync.json",
+    "denoise": 0.65,
+    "prompt_style": "muppetified CGI parody broadcast, crisp rim lighting, expressive puppet/mascot energy"
+  },
+  "audio": {
+    "voiceover_wav": "test_vo.wav",
+    "music_bed": "",
+    "target_lufs": -14.0
+  },
+  "output": {
+    "out_dir": "out/rsn_piranha_001",
+    "hls_playlist": "master.m3u8",
+    "mp4_master": "episode_1080p.mp4"
+  }
+}
