@@ -282,5 +282,56 @@
 
     playChannel(0);
   </script>
+
+<script>
+(async function syncRedSpadeFeed() {
+  const feedUrl = "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/channel_feed.json";
+  const channelList = document.getElementById("channels");
+  if (!channelList) return;
+
+  try {
+    const res = await fetch(`${feedUrl}?t=${Date.now()}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const episodes = Array.isArray(data.episodes) ? data.episodes : [];
+    if (!episodes.length) return;
+
+    episodes.forEach((ep) => {
+      const streamUrl = (ep.streams && (ep.streams.hls || ep.streams.mp4)) || "";
+      if (!streamUrl) return;
+      if (channelList.querySelector(`[data-feed-url="${streamUrl}"]`)) return;
+
+      const idx = channelList.querySelectorAll(".channel-btn").length;
+      const btn = document.createElement("button");
+      btn.className = "channel-btn";
+      btn.setAttribute("data-index", String(idx));
+      btn.setAttribute("data-feed-url", streamUrl);
+
+      const title = ep.title || ep.job_id || `Episode ${idx + 1}`;
+      const meta = ep.channel_id || "S2UD10Z Render Engine";
+
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "channel-title";
+      titleDiv.textContent = title;
+
+      const metaDiv = document.createElement("div");
+      metaDiv.className = "channel-meta";
+      metaDiv.textContent = meta;
+
+      btn.appendChild(titleDiv);
+      btn.appendChild(metaDiv);
+
+      if (typeof window.playChannel === "function") {
+        btn.addEventListener("click", () => window.playChannel(idx));
+      }
+
+      channelList.appendChild(btn);
+    });
+  } catch (_) {
+    // Keep existing static lineup if feed fetch fails
+  }
+})();
+</script>
+
 </body>
 </html>
