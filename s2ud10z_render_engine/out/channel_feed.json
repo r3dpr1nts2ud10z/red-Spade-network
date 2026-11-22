@@ -1,6 +1,6 @@
 {
   "network": "Red Spade Network",
-  "generated_at": "2026-11-22T06:36:18.400469+00:00",
+  "generated_at": "2026-11-22T07:06:51.422006+00:00",
   "total_episodes": 1,
   "episodes": [
     {
@@ -8,7 +8,7 @@
       "channel_id": "red-spade-main",
       "title": "Tax Season Breakdown: Street Math vs. Reality",
       "framing": "educational_parody",
-      "updated_at": "2026-11-22T05:48:51.506449+00:00",
+      "updated_at": "2026-11-22T07:06:51.398127+00:00",
       "streams": {
         "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/render_engine/out/rsn_piranha_001/master.m3u8",
         "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/render_engine/out/rsn_piranha_001/episode_1080p.mp4"

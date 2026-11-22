@@ -179,6 +179,11 @@ def run_job(manifest_path: str, dry_run: bool = False) -> None:
 
     blender_dir = stage_blender(job, work_dir, dry_run=dry_run)
     comfy_video = stage_comfyui(job, blender_dir, work_dir, dry_run=dry_run)
+    import os as _os
+    from gpu_worker import dispatch_remote_render
+    if not dry_run and (_os.environ.get("GPU_SSH_HOST", "").strip() or _os.environ.get("GPU_RENDER_URL", "").strip()):
+        gpu_raw_out = Path(work_dir) / f"{job['job_id']}_gpu_raw.mp4"
+        comfy_video = dispatch_remote_render(job, Path(work_dir), gpu_raw_out)
     mp4_master, hls_playlist = stage_ffmpeg_broadcast(job, comfy_video, dry_run=dry_run)
 
     print("\n=== S2UD10Z RENDER COMPLETE ===")
