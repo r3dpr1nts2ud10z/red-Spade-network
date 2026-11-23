@@ -26,8 +26,25 @@
       "title": "Ingest Test Clip",
       "channel_id": "RSN-INGEST",
       "streams": {
-        "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test/master.m3u8",
-        "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test/episode.mp4"
+        "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test",
+        "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test"
+      }
+    },
+    {
+      "job_id": "rsn_ep_002",
+      "channel_id": "red-spade-main[cite:",
+      "title": "Episode Two",
+      "updated_at": "2026-11-23T07:34:15.918438+00:00",
+      "streams": {
+        "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_ep_002/master.m3u8",
+        "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_ep_002/episode.mp4"
+      },
+      "files": {
+        "playlist": "master.m3u8",
+        "master": "episode.mp4",
+        "segments": [
+          "seg_000.ts"
+        ]
       }
     }
   ]
