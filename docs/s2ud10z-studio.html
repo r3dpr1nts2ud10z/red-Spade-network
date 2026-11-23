@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>R3DPR1NT S2UD10Z — Private Command Center</title>
+  <title>R3DPR1NT S2UD10Z — Private Backroom Command Center</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -29,174 +30,570 @@
       <div class="flex items-center gap-3">
         <span class="h-2.5 w-2.5 rounded-full bg-red-500"></span>
         <div>
-          <div class="text-xs font-mono uppercase tracking-widest text-red-400">Private Backroom · R3DPR1NT S2UD10Z</div>
+          <div class="text-xs font-mono uppercase tracking-widest text-red-400">Backroom Lab · R3DPR1NT S2UD10Z</div>
           <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white">
             Command Center <span class="text-zinc-500 font-normal">→ Red Spade Network Pipeline</span>
           </h1>
         </div>
       </div>
-      <div class="flex items-center gap-2 text-xs font-mono">
+      <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
         <span class="px-2.5 py-1 rounded-lg bg-studio-elevated border border-studio-border text-zinc-300">ELI + RB BACKFIELD</span>
-        <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">DOCS/ PIPELINE</span>
+        <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">6 SLOTS LIVE</span>
       </div>
     </div>
   </header>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+    <!-- 01: CHOP SHOP & RUNNING BACK DESK -->
     <section class="rounded-2xl bg-studio-panel border border-studio-border p-5 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-studio-border pb-3">
         <div>
-          <span class="text-xs font-mono uppercase tracking-wider text-red-400">01 · Chop Shop &amp; Running Back Desk</span>
-          <h2 class="text-lg font-bold text-white">Call the Play, Prep the Cut, Lock the `job_id`</h2>
+          <span class="text-xs font-mono uppercase tracking-wider text-red-400">01 · The Chop Shop &amp; Running Back Desk</span>
+          <h2 class="text-lg font-bold text-white">Call the Play, Prep the Cut, Lock the Job Tag</h2>
         </div>
-        <span class="text-xs text-zinc-400 font-mono">Source: penguin / ChromeOS Downloads</span>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" onclick="applyShowPreset('street')"
+            class="px-2.5 py-1 rounded-lg bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-zinc-200 cursor-pointer">
+            Street Session Preset
+          </button>
+          <button type="button" onclick="applyShowPreset('breakdown')"
+            class="px-2.5 py-1 rounded-lg bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-zinc-200 cursor-pointer">
+            Breakdown Preset
+          </button>
+          <button type="button" onclick="applyShowPreset('downloads')"
+            class="px-2.5 py-1 rounded-lg bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-amber-300 cursor-pointer">
+            ChromeOS Downloads Cut
+          </button>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div class="lg:col-span-6 space-y-3">
           <div>
-            <label class="block text-xs font-semibold text-zinc-300 mb-1">Raw Cut Path (Corner Drop)</label>
+            <label class="block text-xs font-semibold text-zinc-300 mb-1">Raw Cut Path (Where the Raw Video Sits)</label>
             <input id="rawPath" type="text" value="$HOME/s2ud10z_render_engine/out/ingest_test/episode.mp4" oninput="buildPlay()"
               class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs font-mono text-zinc-100 focus:border-red-500 focus:outline-none" />
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-zinc-300 mb-1">Job Tag (`job_id`)</label>
+              <label class="block text-xs font-semibold text-zinc-300 mb-1">Job Tag (Unique Folder Slug)</label>
               <input id="jobTag" type="text" value="rsn_ep_003" oninput="buildPlay()"
                 class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs font-mono text-zinc-100 focus:border-red-500 focus:outline-none" />
             </div>
             <div>
-              <label class="block text-xs font-semibold text-zinc-300 mb-1">Channel Lane</label>
+              <label class="block text-xs font-semibold text-zinc-300 mb-1">Show Lane (Which Block It Runs In)</label>
               <select id="laneSelect" onchange="buildPlay()"
                 class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs font-mono text-zinc-100 focus:border-red-500 focus:outline-none">
-                <option value="red-spade-main">red-spade-main (Flagship)</option>
-                <option value="red-spade-events">red-spade-events (Premieres)</option>
-                <option value="RSN-INGEST">RSN-INGEST (Smoke Test)</option>
+                <option value="red-spade-main">red-spade-main (Flagship Lineup)</option>
+                <option value="red-spade-events">red-spade-events (Specials &amp; Premieres)</option>
+                <option value="RSN-INGEST">RSN-INGEST (Smoke Test Lane)</option>
               </select>
             </div>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-zinc-300 mb-1">Show / Episode Title</label>
+            <label class="block text-xs font-semibold text-zinc-300 mb-1">Episode Title (What Viewers See on the Guide)</label>
             <input id="epTitle" type="text" value="Episode Three: Street Session" oninput="buildPlay()"
               class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs text-zinc-100 focus:border-red-500 focus:outline-none" />
           </div>
         </div>
 
         <div class="lg:col-span-6 rounded-2xl bg-black/65 border border-zinc-800 p-4 flex flex-col justify-between gap-3">
-          <div class="space-y-2">
+          <div class="space-y-2.5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-mono uppercase text-amber-300">Running Back Callout</span>
-              <span class="text-[11px] font-mono text-zinc-500">NO &lt;&gt; BRACKETS</span>
+              <span class="text-xs font-mono uppercase text-amber-300">Running Back Readout</span>
+              <span class="text-[11px] font-mono text-zinc-500">SAFE QUOTES · NO &lt;&gt;</span>
             </div>
             <p id="rbCallout" class="text-xs text-zinc-300 leading-relaxed"></p>
-            <pre id="ingestCmd" class="rounded-xl bg-zinc-950 border border-zinc-800 p-3 text-xs font-mono text-emerald-300 overflow-x-auto"></pre>
+            <div>
+              <div class="text-[11px] font-mono text-zinc-500 mb-1">1. Cook, Slice HLS + MP4, Mirror to docs/ &amp; Push:</div>
+              <pre id="ingestCmd" class="rounded-xl bg-zinc-950 border border-zinc-800 p-3 text-xs font-mono text-emerald-300 overflow-x-auto"></pre>
+            </div>
           </div>
           <div class="flex flex-wrap gap-2">
             <button type="button" onclick="copyCmd('ingestCmd')"
               class="px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold cursor-pointer">
-              Copy Ingest Command
+              Copy Cook &amp; Push Play
             </button>
-            <button type="button" onclick="setDownloadsPath()"
-              class="px-3 py-2 rounded-xl bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-zinc-200 cursor-pointer">
-              Use ChromeOS Downloads Path
+            <button type="button" onclick="copyEntryJson()"
+              class="px-3.5 py-2 rounded-xl bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-zinc-200 cursor-pointer">
+              Copy Feed Entry JSON
             </button>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- 02: SIX-SLOT LINEUP BOARD + MONITOR PREVIEW -->
     <section class="rounded-2xl bg-studio-panel border border-studio-border p-5 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-studio-border pb-3">
         <div>
-          <span class="text-xs font-mono uppercase tracking-wider text-red-400">02 · Lineup Board &amp; Slot Guard</span>
-          <h2 class="text-lg font-bold text-white">Six-Slot Board — Keep Vault (03) &amp; Test (05) Locked</h2>
+          <span class="text-xs font-mono uppercase tracking-wider text-red-400">02 · The Lineup Board &amp; Guarded Slots</span>
+          <h2 class="text-lg font-bold text-white">Six Active Slots — Vault (03) &amp; Test Clip (05) Stay Guarded</h2>
         </div>
         <span class="text-xs font-mono text-amber-300">Protected Slots: 03 · 05</span>
       </div>
 
-      <div id="slotCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div id="slotCards" class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+
+        <div class="lg:col-span-5 rounded-2xl bg-black/65 border border-zinc-800 p-4 space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <div class="text-[11px] font-mono uppercase text-zinc-400">Backroom Monitor</div>
+              <div id="monTitle" class="text-sm font-bold text-white">01 · Main Broadcast</div>
+            </div>
+            <div class="flex gap-1">
+              <button type="button" id="btnFmtHls" onclick="setFmt('hls')"
+                class="px-2.5 py-1 rounded-lg bg-red-600 text-white text-[11px] font-mono font-bold cursor-pointer">
+                HLS
+              </button>
+              <button type="button" id="btnFmtMp4" onclick="setFmt('mp4')"
+                class="px-2.5 py-1 rounded-lg bg-studio-elevated border border-studio-border text-zinc-300 text-[11px] font-mono font-bold cursor-pointer">
+                MP4
+              </button>
+            </div>
+          </div>
+
+          <div class="relative aspect-video rounded-xl overflow-hidden bg-black border border-zinc-800">
+            <video id="monVideo" controls playsinline preload="metadata" class="w-full h-full object-contain"></video>
+            <div id="monNotice" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-black/85 p-4 text-center">
+              <div id="monNoticeTitle" class="text-xs font-bold text-white">Ready to Roll</div>
+              <div id="monNoticeSub" class="text-[11px] text-zinc-400 mt-1">Hit Test Stream on any slot to check playback.</div>
+            </div>
+          </div>
+
+          <p id="monBrooklynNote" class="text-xs text-zinc-300 leading-relaxed"></p>
+          <div id="monUrl" class="text-[11px] font-mono text-zinc-500 truncate"></div>
+
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="playSelectedSlot()"
+              class="px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold cursor-pointer">
+              Test Stream
+            </button>
+            <button type="button" onclick="auditSlots()"
+              class="px-3.5 py-2 rounded-xl bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-zinc-200 cursor-pointer">
+              Check All 6 Slots
+            </button>
+          </div>
+          <div id="auditResult" class="hidden rounded-xl bg-zinc-950 border border-zinc-800 p-2.5 text-[11px] font-mono text-emerald-300"></div>
+        </div>
+      </div>
     </section>
 
-    <section class="rounded-2xl bg-studio-panel border border-studio-border p-5 space-y-3">
+    <!-- 03: STOREFRONT MIRROR, FEED SCRUBBER & PUSH TO MAIN -->
+    <section class="rounded-2xl bg-studio-panel border border-studio-border p-5 space-y-4">
       <div class="border-b border-studio-border pb-3">
-        <span class="text-xs font-mono uppercase tracking-wider text-red-400">03 · Storefront Mirror &amp; Push</span>
-        <h2 class="text-lg font-bold text-white">Ship Clean Assets to `docs/` &amp; `main`</h2>
+        <span class="text-xs font-mono uppercase tracking-wider text-red-400">03 · Storefront Mirror, Feed Scrubber &amp; Push</span>
+        <h2 class="text-lg font-bold text-white">Keep the Public Guide Clean Before Pushing to main</h2>
       </div>
-      <pre id="shipCmd" class="rounded-xl bg-black/75 border border-zinc-800 p-3.5 text-xs font-mono text-sky-300 overflow-x-auto">git -C "$HOME" add s2ud10z_render_engine/out docs && git -C "$HOME" commit -m "Update S2UD10Z studio and feed" && git -C "$HOME" pull --rebase origin main && git -C "$HOME" push origin HEAD:main</pre>
-      <div class="flex items-center justify-between gap-3 pt-1">
-        <span id="statusToast" class="text-xs font-mono text-emerald-400">Ready in penguin.</span>
-        <button type="button" onclick="copyCmd('shipCmd')"
-          class="px-3.5 py-2 rounded-xl bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-white cursor-pointer">
-          Copy Git Ship Command
-        </button>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-6 space-y-3">
+          <div>
+            <div class="text-xs font-semibold text-zinc-300 mb-1">Ship Everything to Public Guide (docs/) &amp; GitHub</div>
+            <pre id="shipCmd" class="rounded-xl bg-black/75 border border-zinc-800 p-3 text-xs font-mono text-sky-300 overflow-x-auto">git -C "$HOME" add s2ud10z_render_engine/out docs && git -C "$HOME" commit -m "Update S2UD10Z backroom and channel feed" && git -C "$HOME" pull --rebase origin main && git -C "$HOME" push origin HEAD:main</pre>
+            <button type="button" onclick="copyCmd('shipCmd')"
+              class="mt-2 px-3.5 py-2 rounded-xl bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-white cursor-pointer">
+              Copy Push to main Command
+            </button>
+          </div>
+
+          <div class="rounded-xl bg-black/50 border border-zinc-800 p-3.5 space-y-1.5 text-xs text-zinc-300">
+            <div class="font-bold text-white">How the Pipeline Works (No Tech Fog)</div>
+            <p><strong class="text-red-400">Raw Cut:</strong> Your video file in penguin or shared ChromeOS Downloads.</p>
+            <p><strong class="text-amber-300">Cook &amp; Slice:</strong> <span class="font-mono">publish_stream.sh</span> makes an MP4 plus HLS chunks (<span class="font-mono">.m3u8</span> + <span class="font-mono">.ts</span>) so browsers and TVs load smooth.</p>
+            <p><strong class="text-sky-300">Public Mirror:</strong> Copies into <span class="font-mono">docs/</span> so GitHub Pages serves the public Red Spade Network guide.</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <label class="text-xs font-semibold text-zinc-300">Feed Scrub &amp; Syntax Check (channel_feed.json)</label>
+            <button type="button" onclick="loadDirtyDemo()"
+              class="px-2.5 py-1 rounded-lg bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-[11px] font-semibold text-zinc-300 cursor-pointer">
+              Load Dirty Sample
+            </button>
+          </div>
+          <textarea id="feedBox" rows="8" oninput="checkFeed(false)" spellcheck="false"
+            class="w-full rounded-xl bg-black/75 border border-zinc-800 p-3 text-xs font-mono text-zinc-200 focus:border-amber-500 focus:outline-none"></textarea>
+          <div id="feedStatus" class="rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-3 py-2 text-xs font-mono text-emerald-300">
+            Feed check ready.
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="scrubFeed()"
+              class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-bold cursor-pointer">
+              Scrub Noise &amp; Format JSON
+            </button>
+            <button type="button" onclick="checkFeed(true)"
+              class="px-3.5 py-2 rounded-xl bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-zinc-200 cursor-pointer">
+              Check Syntax
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-studio-border flex items-center justify-between">
+        <span id="toastLine" class="text-xs font-mono text-emerald-400">Backroom locked in and ready.</span>
       </div>
     </section>
   </main>
 
   <script>
+    const OUT_BASE = 'https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out';
+
     const SLOTS = [
-      { code: '01', name: 'Main Broadcast', lane: 'red-spade-main', locked: false, note: 'Front-door flagship feed.' },
-      { code: '02', name: 'Live Events', lane: 'red-spade-events', locked: false, note: 'Specials & premieres lane.' },
-      { code: '03', name: 'On-Demand Vault', lane: 'red-spade-vault', locked: true, note: 'Guarded vault slot — do not clobber on feed append.' },
-      { code: '04', name: 'Tax Season Breakdown: Street Math vs. Reality', lane: 'red-spade-main', locked: false, note: 'rsn_piranha_001 catalog cut.' },
-      { code: '05', name: 'Ingest Test Clip', lane: 'RSN-INGEST', locked: true, note: 'Guarded smoke test — keeps full /master.m3u8 & /episode.mp4 paths.' },
-      { code: '06', name: 'Episode Two', lane: 'red-spade-main', locked: false, note: 'rsn_ep_002 live in feed & docs/.' },
+      {
+        code: '01',
+        name: 'Main Broadcast',
+        jobId: 'rsn_live_01',
+        lane: 'red-spade-main',
+        locked: false,
+        hls: `${OUT_BASE}/rsn_piranha_001/master.m3u8`,
+        mp4: `${OUT_BASE}/rsn_piranha_001/episode_1080p.mp4`,
+        note: 'Front-door flagship channel. Stays put even when new episodes get added later.',
+      },
+      {
+        code: '02',
+        name: 'Live Events',
+        jobId: 'rsn_events_02',
+        lane: 'red-spade-events',
+        locked: false,
+        hls: `${OUT_BASE}/ingest_test/master.m3u8`,
+        mp4: `${OUT_BASE}/ingest_test/episode.mp4`,
+        note: 'Premieres and special drops. Has an MP4 fallback if HLS needs a backup.',
+      },
+      {
+        code: '03',
+        name: 'On-Demand Vault',
+        jobId: 'rsn_vault_03',
+        lane: 'red-spade-vault',
+        locked: true,
+        hls: `${OUT_BASE}/rsn_ep_002/master.m3u8`,
+        mp4: `${OUT_BASE}/rsn_ep_002/episode.mp4`,
+        note: 'Protected vault slot. Guarded so appending new episodes never wipes it out.',
+      },
+      {
+        code: '04',
+        name: 'Tax Season Breakdown: Street Math vs. Reality',
+        jobId: 'rsn_piranha_001',
+        lane: 'red-spade-main',
+        locked: false,
+        hls: `${OUT_BASE}/rsn_piranha_001/master.m3u8`,
+        mp4: `${OUT_BASE}/rsn_piranha_001/episode_1080p.mp4`,
+        note: 'First cataloged episode (rsn_piranha_001) with full HLS + 1080p MP4.',
+      },
+      {
+        code: '05',
+        name: 'Ingest Test Clip',
+        jobId: 'ingest_test',
+        lane: 'RSN-INGEST',
+        locked: true,
+        hls: `${OUT_BASE}/ingest_test/master.m3u8`,
+        mp4: `${OUT_BASE}/ingest_test/episode.mp4`,
+        note: 'Protected smoke-test slot. Needs full /master.m3u8 and /episode.mp4 paths.',
+      },
+      {
+        code: '06',
+        name: 'Episode Two',
+        jobId: 'rsn_ep_002',
+        lane: 'red-spade-main',
+        locked: false,
+        hls: `${OUT_BASE}/rsn_ep_002/master.m3u8`,
+        mp4: `${OUT_BASE}/rsn_ep_002/episode.mp4`,
+        note: 'Freshly cooked via publish_stream.sh and mirrored into docs/.',
+      },
     ];
+
+    const CLEAN_FEED = {
+      network: 'RED SPADE NETWORK',
+      episodes: [
+        {
+          job_id: 'rsn_piranha_001',
+          channel_id: 'red-spade-main',
+          title: 'Tax Season Breakdown: Street Math vs. Reality',
+          streams: {
+            hls: `${OUT_BASE}/rsn_piranha_001/master.m3u8`,
+            mp4: `${OUT_BASE}/rsn_piranha_001/episode_1080p.mp4`,
+          },
+          files: { playlist: 'master.m3u8', master: 'episode_1080p.mp4', segments: ['seg_000.ts'] },
+        },
+        {
+          job_id: 'ingest_test',
+          channel_id: 'RSN-INGEST',
+          title: 'Ingest Test Clip',
+          streams: {
+            hls: `${OUT_BASE}/ingest_test/master.m3u8`,
+            mp4: `${OUT_BASE}/ingest_test/episode.mp4`,
+          },
+          files: { playlist: 'master.m3u8', master: 'episode.mp4', segments: ['seg_000.ts'] },
+        },
+        {
+          job_id: 'rsn_ep_002',
+          channel_id: 'red-spade-main',
+          title: 'Episode Two',
+          streams: {
+            hls: `${OUT_BASE}/rsn_ep_002/master.m3u8`,
+            mp4: `${OUT_BASE}/rsn_ep_002/episode.mp4`,
+          },
+          files: { playlist: 'master.m3u8', master: 'episode.mp4', segments: ['seg_000.ts'] },
+        },
+      ],
+    };
+
+    let selectedSlotIdx = 0;
+    let previewFmt = 'hls';
+    let hlsInst = null;
 
     function q(val) {
       return `'${String(val || '').replace(/'/g, `'\\''`)}'`;
     }
 
-    function cleanId(val) {
+    function cleanJobId(val) {
       return String(val || '').trim().replace(/[^a-zA-Z0-9_-]+/g, '_') || 'rsn_ep_003';
     }
 
-    function setDownloadsPath() {
-      document.getElementById('rawPath').value = '/mnt/chromeos/MyFiles/Downloads/new_cut.mp4';
+    function cleanText(val) {
+      return String(val || '')
+        .replace(/\[cite:[^\]]*\]?/g, '')
+        .replace(/[\x00-\x1f\x7f]+/g, ' ')
+        .trim();
+    }
+
+    function setToast(msg) {
+      document.getElementById('toastLine').textContent = msg;
+    }
+
+    function copyCmd(id) {
+      const txt = document.getElementById(id).textContent;
+      navigator.clipboard?.writeText(txt).then(
+        () => setToast('Copied to clipboard.'),
+        () => setToast('Select and copy manually.')
+      );
+    }
+
+    function applyShowPreset(kind) {
+      const rawEl = document.getElementById('rawPath');
+      const jobEl = document.getElementById('jobTag');
+      const laneEl = document.getElementById('laneSelect');
+      const titleEl = document.getElementById('epTitle');
+
+      if (kind === 'street') {
+        rawEl.value = '$HOME/s2ud10z_render_engine/out/ingest_test/episode.mp4';
+        jobEl.value = 'rsn_ep_003';
+        laneEl.value = 'red-spade-main';
+        titleEl.value = 'Episode Three: Street Session';
+      } else if (kind === 'breakdown') {
+        rawEl.value = '$HOME/s2ud10z_render_engine/out/rsn_piranha_001/episode_1080p.mp4';
+        jobEl.value = 'rsn_breakdown_04';
+        laneEl.value = 'red-spade-events';
+        titleEl.value = 'Special Breakdown: Backroom Cut';
+      } else {
+        rawEl.value = '/mnt/chromeos/MyFiles/Downloads/new_show_cut.mp4';
+        jobEl.value = 'rsn_ep_003';
+        laneEl.value = 'red-spade-main';
+        titleEl.value = 'Episode Three: Fresh Drop';
+      }
       buildPlay();
-      setToast('Switched path to shared ChromeOS Downloads.');
+      setToast(`Loaded ${kind} preset.`);
+    }
+
+    function getCurrentPlayData() {
+      const raw = cleanText(document.getElementById('rawPath').value).replace(/[<>]/g, '');
+      const job = cleanJobId(document.getElementById('jobTag').value);
+      const lane = cleanText(document.getElementById('laneSelect').value) || 'red-spade-main';
+      const title = cleanText(document.getElementById('epTitle').value) || 'Untitled Episode';
+      return { raw, job, lane, title };
     }
 
     function buildPlay() {
-      const raw = (document.getElementById('rawPath').value || '').replace(/[<>]/g, '').trim();
-      const job = cleanId(document.getElementById('jobTag').value);
-      const lane = document.getElementById('laneSelect').value;
-      const title = (document.getElementById('epTitle').value || 'Untitled Episode').replace(/\[cite:[^\]]*\]?/g, '').trim();
-
+      const { raw, job, lane, title } = getCurrentPlayData();
       document.getElementById('rbCallout').textContent =
-        `Running back read: ${job} goes into ${lane} as "${title}". Script checks the file exists, slices HLS + MP4, mirrors into docs/s2ud10z_render_engine/out/${job}/, and leaves slots 03 and 05 alone.`;
+        `Running back read: we hand off "${title}" (${job}) into ${lane}. Script checks that the source file exists, slices HLS + MP4, mirrors into docs/s2ud10z_render_engine/out/${job}/, and leaves protected slots 03 and 05 alone.`;
       document.getElementById('ingestCmd').textContent =
         `~/publish_stream.sh ${q(raw)} ${q(job)} ${q(title)} ${q(lane)}`;
     }
 
-    function renderSlots() {
-      const wrap = document.getElementById('slotCards');
-      wrap.innerHTML = SLOTS.map((s) => `
-        <div class="rounded-2xl p-4 border ${s.locked ? 'bg-black/50 border-amber-500/40' : 'bg-black/40 border-zinc-800'} space-y-1.5">
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="font-bold text-red-400">SLOT ${s.code}</span>
-            <span class="${s.locked ? 'text-amber-300' : 'text-emerald-400'}">${s.locked ? 'LOCKED' : 'ACTIVE'}</span>
-          </div>
-          <div class="text-sm font-bold text-white">${s.code} · ${s.name}</div>
-          <div class="text-xs text-zinc-400">${s.note}</div>
-        </div>
-      `).join('');
-    }
-
-    function copyCmd(id) {
-      const text = document.getElementById(id).textContent;
-      navigator.clipboard?.writeText(text).then(
-        () => setToast('Copied command to clipboard.'),
-        () => setToast('Select and copy from the box.')
+    function copyEntryJson() {
+      const { job, lane, title } = getCurrentPlayData();
+      const entry = {
+        job_id: job,
+        channel_id: lane,
+        title,
+        streams: {
+          hls: `${OUT_BASE}/${job}/master.m3u8`,
+          mp4: `${OUT_BASE}/${job}/episode.mp4`,
+        },
+        files: {
+          playlist: 'master.m3u8',
+          master: 'episode.mp4',
+          segments: ['seg_000.ts'],
+        },
+      };
+      navigator.clipboard?.writeText(JSON.stringify(entry, null, 2)).then(
+        () => setToast(`Copied clean JSON entry for ${job}.`),
+        () => setToast('Could not copy JSON entry.')
       );
     }
 
-    function setToast(msg) {
-      document.getElementById('statusToast').textContent = msg;
+    function renderSlots() {
+      const wrap = document.getElementById('slotCards');
+      wrap.innerHTML = SLOTS.map((s, idx) => {
+        const active = idx === selectedSlotIdx;
+        const borderClass = active
+          ? 'border-red-500 bg-studio-elevated'
+          : s.locked
+          ? 'border-amber-500/35 bg-black/50 hover:border-amber-400'
+          : 'border-zinc-800 bg-black/40 hover:border-zinc-600';
+        return `
+          <button type="button" onclick="pickSlot(${idx})"
+            class="text-left rounded-2xl p-3.5 border ${borderClass} transition cursor-pointer flex flex-col justify-between gap-2">
+            <div>
+              <div class="flex items-center justify-between text-[11px] font-mono mb-1">
+                <span class="font-bold text-red-400">SLOT ${s.code}</span>
+                <span class="${s.locked ? 'text-amber-300' : 'text-emerald-400'}">${s.locked ? 'GUARDED' : 'OPEN'}</span>
+              </div>
+              <div class="text-sm font-bold text-white leading-snug">${s.code} · ${esc(s.name)}</div>
+              <div class="text-xs text-zinc-400 mt-1 leading-relaxed">${esc(s.note)}</div>
+            </div>
+            <div class="text-[11px] font-mono text-zinc-500">id: ${esc(s.jobId)}</div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function esc(s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function pickSlot(idx) {
+      selectedSlotIdx = idx;
+      renderSlots();
+      syncMonitorInfo();
+    }
+
+    function setFmt(fmt) {
+      previewFmt = fmt === 'mp4' ? 'mp4' : 'hls';
+      document.getElementById('btnFmtHls').className = previewFmt === 'hls'
+        ? 'px-2.5 py-1 rounded-lg bg-red-600 text-white text-[11px] font-mono font-bold cursor-pointer'
+        : 'px-2.5 py-1 rounded-lg bg-studio-elevated border border-studio-border text-zinc-300 text-[11px] font-mono font-bold cursor-pointer';
+      document.getElementById('btnFmtMp4').className = previewFmt === 'mp4'
+        ? 'px-2.5 py-1 rounded-lg bg-red-600 text-white text-[11px] font-mono font-bold cursor-pointer'
+        : 'px-2.5 py-1 rounded-lg bg-studio-elevated border border-studio-border text-zinc-300 text-[11px] font-mono font-bold cursor-pointer';
+      syncMonitorInfo();
+    }
+
+    function activeUrl(slot) {
+      return previewFmt === 'mp4' ? (slot.mp4 || slot.hls) : (slot.hls || slot.mp4);
+    }
+
+    function syncMonitorInfo() {
+      const slot = SLOTS[selectedSlotIdx];
+      document.getElementById('monTitle').textContent = `${slot.code} · ${slot.name}`;
+      document.getElementById('monBrooklynNote').textContent = slot.note;
+      document.getElementById('monUrl').textContent = activeUrl(slot);
+    }
+
+    function playSelectedSlot() {
+      const slot = SLOTS[selectedSlotIdx];
+      const video = document.getElementById('monVideo');
+      const notice = document.getElementById('monNotice');
+      const url = activeUrl(slot);
+
+      if (hlsInst) {
+        try { hlsInst.destroy(); } catch (e) {}
+        hlsInst = null;
+      }
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+      notice.classList.add('hidden');
+
+      if (url.endsWith('.m3u8') && window.Hls && window.Hls.isSupported()) {
+        hlsInst = new window.Hls();
+        hlsInst.loadSource(url);
+        hlsInst.attachMedia(video);
+        hlsInst.on(window.Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}));
+        hlsInst.on(window.Hls.Events.ERROR, (_ev, data) => {
+          if (data && data.fatal && slot.mp4 && url !== slot.mp4) {
+            try { hlsInst.destroy(); } catch (e) {}
+            hlsInst = null;
+            video.src = slot.mp4;
+            video.play().catch(() => {});
+          } else if (data && data.fatal) {
+            document.getElementById('monNoticeTitle').textContent = 'Stream Check Flagged';
+            document.getElementById('monNoticeSub').textContent = 'Confirm playlist and segments are live in docs/.';
+            notice.classList.remove('hidden');
+          }
+        });
+      } else {
+        video.src = url;
+        video.play().catch(() => {});
+      }
+      setToast(`Loaded Slot ${slot.code} (${previewFmt.toUpperCase()}) in backroom monitor.`);
+    }
+
+    function auditSlots() {
+      const res = document.getElementById('auditResult');
+      const okCount = SLOTS.filter((s) => s.hls.startsWith('https://') && s.mp4.startsWith('https://')).length;
+      res.classList.remove('hidden');
+      res.textContent = `Check complete: ${okCount}/${SLOTS.length} slots have HLS + MP4 paths wired · Slots 03 & 05 marked GUARDED.`;
+      setToast('All 6 slots checked.');
+    }
+
+    function loadDirtyDemo() {
+      const dirty = JSON.stringify(CLEAN_FEED, null, 2).replace(
+        `${OUT_BASE}/rsn_ep_002/master.m3u8`,
+        `[${OUT_BASE}/rsn_ep_002/master.m3u8](${OUT_BASE}/rsn_ep_002/master.m3u8)`
+      );
+      document.getElementById('feedBox').value = dirty;
+      checkFeed(false);
+    }
+
+    function scrubFeed() {
+      const box = document.getElementById('feedBox');
+      let txt = box.value || '';
+      txt = txt.replace(/\[cite:[^\]]*\]?/g, '');
+      txt = txt.replace(/\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/g, '$1');
+      txt = txt.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, '');
+      try {
+        const obj = JSON.parse(txt);
+        box.value = JSON.stringify(obj, null, 2) + '\n';
+        checkFeed(true);
+        setToast('Scrubbed stray tags and formatted JSON.');
+      } catch (err) {
+        document.getElementById('feedStatus').textContent = `Still needs a syntax fix: ${err.message}`;
+      }
+    }
+
+    function checkFeed(verbose) {
+      const txt = document.getElementById('feedBox').value || '';
+      const st = document.getElementById('feedStatus');
+      if (/\[cite:/i.test(txt)) {
+        st.className = 'rounded-xl bg-amber-500/10 border border-amber-500/40 px-3 py-2 text-xs font-mono text-amber-300';
+        st.textContent = 'Found stray [cite: tag — hit "Scrub Noise & Format JSON".';
+        return;
+      }
+      try {
+        const parsed = JSON.parse(txt);
+        const count = Array.isArray(parsed.episodes) ? parsed.episodes.length : 0;
+        st.className = 'rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-3 py-2 text-xs font-mono text-emerald-300';
+        st.textContent = `Clean JSON · ${count} episode(s) ready for docs/ mirror.`;
+        if (verbose) setToast('Feed JSON syntax is clean.');
+      } catch (err) {
+        st.className = 'rounded-xl bg-red-500/10 border border-red-500/40 px-3 py-2 text-xs font-mono text-red-300';
+        st.textContent = `JSON error: ${err.message}`;
+      }
     }
 
     buildPlay();
     renderSlots();
+    syncMonitorInfo();
+    document.getElementById('feedBox').value = JSON.stringify(CLEAN_FEED, null, 2) + '\n';
+    checkFeed(false);
   </script>
 </body>
 </html>
