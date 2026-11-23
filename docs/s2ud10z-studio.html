@@ -38,6 +38,7 @@
       </div>
       <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
         <span class="px-2.5 py-1 rounded-lg bg-studio-elevated border border-studio-border text-zinc-300">ELI + RB BACKFIELD</span>
+        <span class="px-2.5 py-1 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300">MUPPET / ANTHRO LAB</span>
         <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">6 SLOTS LIVE</span>
       </div>
     </div>
@@ -231,9 +232,95 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- 04: SUBPLOT / TRI-PLOT MUPPETIZER & LINE ADAPTER -->
+    <section class="rounded-2xl bg-studio-panel border border-purple-500/35 p-5 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-studio-border pb-3">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-purple-300">04 · Subplot / Tri-Plot Muppetizer &amp; Line Adapter</span>
+          <h2 class="text-lg font-bold text-white">Parallel Cart Cutaways, Felt &amp; Anthro Casts, and Syndication Beats</h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" onclick="loadTriPlotPreset('subway')"
+            class="px-2.5 py-1 rounded-lg bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-purple-200 cursor-pointer">
+            Subway Cart Doo-Wop Cut
+          </button>
+          <button type="button" onclick="loadTriPlotPreset('njd')"
+            class="px-2.5 py-1 rounded-lg bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-amber-300 cursor-pointer">
+            New Jack Muppet Syndicate
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-6 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-zinc-300 mb-1">A-Plot: Main Action Beat</label>
+              <input id="aPlotInput" type="text" value="Heat on the line — crew sliding car-to-car while waiting for the stop." oninput="buildTriPlot()"
+                class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs text-zinc-100 focus:border-purple-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-zinc-300 mb-1">B-Plot: Next-Car Muppet / Anthro Cutaway</label>
+              <input id="bPlotInput" type="text" value="Felt harmony quartet &amp; anthro dancers hitting smooth step-box choreography in the next car." oninput="buildTriPlot()"
+                class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs text-zinc-100 focus:border-purple-500 focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-zinc-300 mb-1">C-Plot: Syndication / Stinger Punchline</label>
+              <input id="cPlotInput" type="text" value="Doors part, neon hits the felt, smash-cut back to the main chase." oninput="buildTriPlot()"
+                class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs text-zinc-100 focus:border-purple-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-zinc-300 mb-1">Cast &amp; Avatar Mix</label>
+              <select id="castMixSelect" onchange="buildTriPlot()"
+                class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs font-mono text-zinc-100 focus:border-purple-500 focus:outline-none">
+                <option value="Felt Muppets + Anthro Crew + Live Humans">Felt Muppets + Anthro Crew + Live Humans</option>
+                <option value="Classic Doo-Wop Felt Quartet + Street Dancers">Classic Doo-Wop Felt Quartet + Street Dancers</option>
+                <option value="Cyber Anthro Enforcers + Felt Commentators">Cyber Anthro Enforcers + Felt Commentators</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-zinc-300 mb-1">Adapted Scene Lines / Lip-Sync Cues (Original Satire)</label>
+            <textarea id="lineAdapterBox" rows="3" oninput="buildTriPlot()"
+              class="w-full rounded-xl bg-black/70 border border-zinc-800 px-3 py-2 text-xs font-mono text-zinc-100 focus:border-purple-500 focus:outline-none">FELT LEAD: Watch the door gap, keep the harmony tight.
+ANTHRO BACKUP: Step in time when the rail sparks fly.
+MAIN SCENE CUT: Back to the heat before the brakes lock.</textarea>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 rounded-2xl bg-black/65 border border-zinc-800 p-4 flex flex-col justify-between gap-3">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono uppercase text-purple-300">Tri-Plot Treatment &amp; Muppet Cut Cmd</span>
+              <span class="text-[11px] font-mono text-zinc-500">SYNCED TO JOB TAG</span>
+            </div>
+            <pre id="triPlotSheet" class="rounded-xl bg-zinc-950 border border-zinc-800 p-3 text-xs font-mono text-zinc-200 whitespace-pre-wrap leading-relaxed max-h-44 overflow-y-auto"></pre>
+            <div>
+              <div class="text-[11px] font-mono text-zinc-500 mb-1">Ingest Cut Using Current Chop Shop Path &amp; Job Tag:</div>
+              <pre id="muppetIngestCmd" class="rounded-xl bg-zinc-950 border border-zinc-800 p-2.5 text-xs font-mono text-emerald-300 overflow-x-auto"></pre>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="copyCmd('triPlotSheet')"
+              class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold cursor-pointer">
+              Copy Tri-Plot Sheet
+            </button>
+            <button type="button" onclick="copyCmd('muppetIngestCmd')"
+              class="px-3.5 py-2 rounded-xl bg-studio-elevated hover:bg-zinc-800 border border-studio-border text-xs font-semibold text-zinc-200 cursor-pointer">
+              Copy Muppet Cut Ingest Cmd
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div class="pt-2 border-t border-studio-border flex items-center justify-between">
-        <span id="toastLine" class="text-xs font-mono text-emerald-400">Backroom locked in and ready.</span>
+        <span id="toastLine" class="text-xs font-mono text-emerald-400">Backroom + Muppetizer locked in and ready.</span>
       </div>
     </section>
   </main>
@@ -394,6 +481,7 @@
         titleEl.value = 'Episode Three: Fresh Drop';
       }
       buildPlay();
+      buildTriPlot();
       setToast(`Loaded ${kind} preset.`);
     }
 
@@ -411,6 +499,9 @@
         `Running back read: we hand off "${title}" (${job}) into ${lane}. Script checks that the source file exists, slices HLS + MP4, mirrors into docs/s2ud10z_render_engine/out/${job}/, and leaves protected slots 03 and 05 alone.`;
       document.getElementById('ingestCmd').textContent =
         `~/publish_stream.sh ${q(raw)} ${q(job)} ${q(title)} ${q(lane)}`;
+      if (document.getElementById('muppetIngestCmd')) {
+        buildTriPlot();
+      }
     }
 
     function copyEntryJson() {
@@ -433,6 +524,49 @@
         () => setToast(`Copied clean JSON entry for ${job}.`),
         () => setToast('Could not copy JSON entry.')
       );
+    }
+
+    function loadTriPlotPreset(mode) {
+      if (mode === 'subway') {
+        document.getElementById('aPlotInput').value = 'Waiting on the train stop while rivals close in down the platform.';
+        document.getElementById('bPlotInput').value = 'Next car over: felt doo-wop singers & anthro crew running crisp synchronized footwork.';
+        document.getElementById('cPlotInput').value = 'Snap-cut back to the tension right as the signal flips green.';
+        document.getElementById('castMixSelect').value = 'Felt Muppets + Anthro Crew + Live Humans';
+        document.getElementById('lineAdapterBox').value =
+          'FELT TENOR: Keep the groove steady while the express rolls past.\nANTHRO STEPPER: Slide left on the beat, catch the flash.\nA-PLOT SNAP: Back to the heat before the doors seal.';
+      } else {
+        document.getElementById('aPlotInput').value = 'High-stakes tower showdown over the block throne.';
+        document.getElementById('bPlotInput').value = 'Side-lane muppet & anthro syndicate re-enacting the boardroom standoff with felt swagger.';
+        document.getElementById('cPlotInput').value = 'Syndication cold-open stinger cutting straight into the main feature.';
+        document.getElementById('castMixSelect').value = 'Cyber Anthro Enforcers + Felt Commentators';
+        document.getElementById('lineAdapterBox').value =
+          'FELT BOSS: Count the stacks in plain sight, zero panic.\nANTHRO HEAVY: Lock the perimeter, keep the spotlight clean.\nSYNDICATE TAG: Roll credits on the hook.';
+      }
+      buildTriPlot();
+      setToast(`Loaded ${mode === 'subway' ? 'Subway Cart Doo-Wop' : 'New Jack Muppet Syndicate'} plot.`);
+    }
+
+    function buildTriPlot() {
+      const { raw, job, lane, title } = getCurrentPlayData();
+      const aPlot = cleanText(document.getElementById('aPlotInput').value);
+      const bPlot = cleanText(document.getElementById('bPlotInput').value);
+      const cPlot = cleanText(document.getElementById('cPlotInput').value);
+      const castMix = cleanText(document.getElementById('castMixSelect').value);
+      const lines = cleanText(document.getElementById('lineAdapterBox').value);
+
+      const sheet = [
+        `JOB: ${job} | LANE: ${lane} | SHOW: ${title}`,
+        `CAST MIX: ${castMix}`,
+        `[A-PLOT MAIN] ${aPlot}`,
+        `[B-PLOT MUPPET/ANTHRO CUTAWAY] ${bPlot}`,
+        `[C-PLOT SYNDICATION STINGER] ${cPlot}`,
+        `--- ADAPTED LINES ---`,
+        lines,
+      ].join('\n');
+
+      document.getElementById('triPlotSheet').textContent = sheet;
+      document.getElementById('muppetIngestCmd').textContent =
+        `~/publish_stream.sh ${q(raw)} ${q(job)} ${q(`${title} [Muppet Cut]`)} ${q(lane)}`;
     }
 
     function renderSlots() {
@@ -592,6 +726,7 @@
     buildPlay();
     renderSlots();
     syncMonitorInfo();
+    buildTriPlot();
     document.getElementById('feedBox').value = JSON.stringify(CLEAN_FEED, null, 2) + '\n';
     checkFeed(false);
   </script>
