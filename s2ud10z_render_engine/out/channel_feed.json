@@ -20,6 +20,15 @@
           "seg_000.ts"
         ]
       }
+    },
+    {
+      "job_id": "ingest_test",
+      "title": "Ingest Test Clip",
+      "channel_id": "RSN-INGEST",
+      "streams": {
+        "hls": "[https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test](https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test)/master.m3u8",
+        "mp4": "[https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test](https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test)/episode.mp4"
+      }
     }
   ]
 }
