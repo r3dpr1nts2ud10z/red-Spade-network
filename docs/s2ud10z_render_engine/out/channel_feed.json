@@ -1,14 +1,11 @@
 {
-  "network": "Red Spade Network",
-  "generated_at": "2026-11-22T07:06:51.422006+00:00",
-  "total_episodes": 1,
+  "network": "RED SPADE NETWORK",
   "episodes": [
     {
       "job_id": "rsn_piranha_001",
       "channel_id": "red-spade-main",
       "title": "Tax Season Breakdown: Street Math vs. Reality",
-      "framing": "educational_parody",
-      "updated_at": "2026-11-22T07:06:51.398127+00:00",
+      "updated_at": "2026-11-23T07:47:51.373159+00:00",
       "streams": {
         "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_piranha_001/master.m3u8",
         "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_piranha_001/episode_1080p.mp4"
@@ -23,18 +20,26 @@
     },
     {
       "job_id": "ingest_test",
-      "title": "Ingest Test Clip",
       "channel_id": "RSN-INGEST",
+      "title": "Ingest Test Clip",
+      "updated_at": "2026-11-23T07:47:51.373920+00:00",
       "streams": {
-        "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test",
-        "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test"
+        "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test/master.m3u8",
+        "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/ingest_test/episode.mp4"
+      },
+      "files": {
+        "playlist": "master.m3u8",
+        "master": "episode.mp4",
+        "segments": [
+          "seg_000.ts"
+        ]
       }
     },
     {
       "job_id": "rsn_ep_002",
-      "channel_id": "red-spade-main[cite:",
+      "channel_id": "red-spade-main",
       "title": "Episode Two",
-      "updated_at": "2026-11-23T07:34:15.918438+00:00",
+      "updated_at": "2026-11-23T07:47:51.374387+00:00",
       "streams": {
         "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_ep_002/master.m3u8",
         "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_ep_002/episode.mp4"
