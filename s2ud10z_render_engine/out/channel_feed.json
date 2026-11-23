@@ -55,15 +55,12 @@
     {
       "job_id": "rsn_axem_003",
       "channel_id": "red-spade-main",
-      "title": "Ax 'Em (1992): Worst Horror Cut",
-      "updated_at": "2026-11-23T11:32:26.622031+00:00",
+      "title": "Ax 'Em (1992)",
       "streams": {
-        "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_axem_003/master.m3u8",
-        "mp4": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_axem_003/episode.mp4"
+        "hls": "https://r3dpr1nts2ud10z.github.io/red-Spade-network/s2ud10z_render_engine/out/rsn_axem_003/master.m3u8"
       },
       "files": {
         "playlist": "master.m3u8",
-        "master": "episode.mp4",
         "segments": [
           "seg_000.ts",
           "seg_001.ts",
